@@ -1,0 +1,14 @@
+{ "columns":16,
+ "image":"..\/..\/..\/Download\/Modern_Interiors_Free_v2.2 (3)\/Modern tiles_Free\/Interiors_free\/48x48\/Interiors_free_48x48.png",
+ "imageheight":4272,
+ "imagewidth":768,
+ "margin":0,
+ "name":"interior",
+ "spacing":0,
+ "tilecount":1424,
+ "tiledversion":"1.11.2",
+ "tileheight":48,
+ "tilewidth":48,
+ "type":"tileset",
+ "version":"1.10"
+}

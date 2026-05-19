@@ -1,0 +1,20 @@
+services:
+  mln111:
+    image: hoangworthy/mln111:latest
+    container_name: mln111
+    restart: always
+    ports:
+      - "25577:25577"
+      - "25578:25578"
+    environment:
+      - NODE_ENV=production
+      - PORT=${PORT:-25578}
+      - CLIENT_PORT=${CLIENT_PORT:-25577}
+      - CLIENT_URL=https://hcm202.hyudequeue.xyz
+      - NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL:-https://mln131-internal.hyudequeue.xyz}
+    networks:
+      - mln131-network
+
+networks:
+  mln131-network:
+    driver: bridge
