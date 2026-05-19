@@ -10,8 +10,8 @@ services:
       - NODE_ENV=production
       - PORT=${PORT:-25578}
       - CLIENT_PORT=${CLIENT_PORT:-25577}
-      - CLIENT_URL=https://mnl111.bughunters.site:25577
-      - NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL:-https://mnl111-api.bughunters.site:25578}
+      - CLIENT_URL=https://mln111.bughunters.site:25577
+      - NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL:-https://mln111-api.bughunters.site:25578}
     networks:
       - mln111-network
 

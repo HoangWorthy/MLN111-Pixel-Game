@@ -14,7 +14,7 @@ export function getEnvVar(key: string, fallback: string): string {
 export function getServerUrl(): string {
   return getEnvVar(
     "NEXT_PUBLIC_SERVER_URL",
-    "https://mln131-internal.hyudequeue.xyz"
+    "https://mln111-api.bughunters.site"
   );
 }
 
@@ -22,7 +22,7 @@ export function getServerUrl(): string {
  * Get client URL
  */
 export function getClientUrl(): string {
-  return getEnvVar("CLIENT_URL", "https://vnr202.hyudequeue.xyz");
+  return getEnvVar("CLIENT_URL", "https://mln111.bughunters.site");
 }
 
 /**
@@ -44,9 +44,9 @@ export function getAllowedOrigins(): string[] {
   if (clientUrl) origins.push(clientUrl);
   if (serverUrl) origins.push(serverUrl);
 
-  origins.push("https://mln131.hyudequeue.xyz");
-  origins.push("https://mln131-internal.hyudequeue.xyz");
-  origins.push("https://hcm202.hyudequeue.xyz");
+  origins.push("https://mln111.bughunters.site");
+  origins.push("https://mln111-internal.bughunters.site");
+  origins.push("https://mln111-api.bughunters.site");
   origins.push("http://localhost:25576");
 
   if (process.env.NODE_ENV === "development") {

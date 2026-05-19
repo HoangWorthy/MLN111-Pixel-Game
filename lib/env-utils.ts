@@ -29,11 +29,11 @@ export function getServerUrl(): string {
     }
   }
 
-  return "https://mln131-internal.hyudequeue.xyz";
+  return "https://mln111-api.bughunters.site";
 }
 
 export function getClientUrl(): string {
-  return getEnvVar("CLIENT_URL", "https://hcm202.hyudequeue.xyz");
+  return getEnvVar("CLIENT_URL", "https://mln111.bughunters.site");
 }
 
 export function getServerPort(): number {
