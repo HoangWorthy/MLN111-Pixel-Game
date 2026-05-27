@@ -369,22 +369,9 @@ export default function MuseumScene({
           frameHeight: 32,
         });
 
-        if (USE_VIETNAM_MAP) {
-          this.load.image("VietNamMap", "/tiles/VietNamMap.png");
-          this.load.json("VietNamMapData", "/tiles/VietNamMap.json");
-          this.load.text("VietNamTileset", "/tiles/VietNam.tsx");
-        } else {
-          this.load.tilemapTiledJSON("map1", "/tiles/map1.json");
-          this.load.tilemapTiledJSON("map2", "/tiles/map2.json");
-          this.load.tilemapTiledJSON("map3", "/tiles/map3.json");
-          this.load.image("room", "/tiles/room.png");
-          this.load.image("interior", "/tiles/interior.png");
-          this.load.image("Dungeon_Tileset", "/tiles/Dungeon_Tileset.png");
-          this.load.image(
-            "antarcticbees_interior",
-            "/tiles/antarcticbees_interior_free_sample-export.png"
-          );
-        }
+        this.load.image("VietNamMap", "/tiles/VietNamMap.png");
+        this.load.json("VietNamMapData", "/tiles/VietNamMap.json");
+        this.load.text("VietNamTileset", "/tiles/VietNam.tsx");
 
         GraphicsCreator.createInfoPointGraphic(this);
         GraphicsCreator.createQuizPointGraphic(this);
@@ -400,35 +387,6 @@ export default function MuseumScene({
         this.inputManager = new InputManager(this);
 
         this.sceneSetupManager.setupPhysicsWorld();
-
-        if (!USE_VIETNAM_MAP) {
-          this.sceneSetupManager.createBaseFloor();
-          this.sceneSetupManager.createTitle();
-
-          for (let i = 1; i <= 8; i++) {
-            const x = i * 1000;
-
-            this.sceneSetupManager.createWall(x, 250, 40, 460, 0x1e293b);
-            this.sceneSetupManager.createWall(x, 950, 40, 460, 0x1e293b);
-
-            if (!unlockedRooms.has(i + 1)) {
-              const doorCollision = this.add.rectangle(
-                x,
-                600,
-                40,
-                200,
-                0xff0000,
-                0
-              );
-              this.physics.add.existing(doorCollision, true);
-
-              this.lockedDoors.push({
-                collision: doorCollision,
-                roomNumber: i + 1,
-              });
-            }
-          }
-        }
 
         AnimationManager.createPlayerAnimations(this);
 
@@ -454,17 +412,10 @@ export default function MuseumScene({
         this.layer1 = this.mapManager.layer1;
         this.layer2 = this.mapManager.layer2;
         this.layer3 = this.mapManager.layer3;
-        this.map2 = this.mapManager.map2;
-        this.map2wall = this.mapManager.map2wall;
-        this.map2floor = this.mapManager.map2floor;
-        this.map3 = this.mapManager.map3;
-        this.map3wall = this.mapManager.map3wall;
-        this.map3floor1 = this.mapManager.map3floor1;
-        this.map3floor2 = this.mapManager.map3floor2;
 
         this.physics.world.setBounds(0, 0, totalWidth, totalHeight);
 
-        if (USE_VIETNAM_MAP && this.mapManager.vietnamCollisionGroup) {
+        if (this.mapManager.vietnamCollisionGroup) {
           this.physics.add.collider(player, this.mapManager.vietnamCollisionGroup);
         }
 
@@ -477,65 +428,7 @@ export default function MuseumScene({
           );
         }
 
-        if (!USE_VIETNAM_MAP) {
-          this.topBorder = this.add.rectangle(
-          this.map.widthInPixels / 2 +
-            this.map2.widthInPixels / 2 +
-            this.map3.widthInPixels / 2,
-          30,
-          this.map.widthInPixels +
-            this.map2.widthInPixels +
-            this.map3.widthInPixels,
-          20,
-          0xff0000,
-          0
-        );
-        this.physics.add.existing(this.topBorder, true);
-
-        this.add.rectangle(
-          720 + this.map.widthInPixels,
-          100,
-          600,
-          60,
-          0x0f3460
-        );
-        this.add
-          .text(
-            720 + this.map.widthInPixels,
-            100,
-            "PHÒNG 2: BẢN CHẤT & HÌNH THỨC",
-            {
-              fontSize: "24px",
-              color: "#e8e8e8",
-              fontStyle: "bold",
-            }
-          )
-          .setOrigin(0.5)
-          .setDepth(10);
-
-        this.add.rectangle(
-          720 + this.map.widthInPixels + this.map2.widthInPixels,
-          100,
-          600,
-          60,
-          0x0f3460
-        );
-        this.add
-          .text(
-            720 + this.map.widthInPixels + this.map2.widthInPixels,
-            100,
-            "PHÒNG 3: NGHIÊN CỨU KHOA HỌC",
-            {
-              fontSize: "24px",
-              color: "#e8e8e8",
-              fontStyle: "bold",
-            }
-          )
-          .setOrigin(0.5)
-          .setDepth(10);
-
-        this.refreshBackButtons();
-        }
+        // Legacy multi-map layout removed. Using single VietNam map only.
 
         if (USE_VIETNAM_MAP) {
           this.interactiveElementsManager.createVietnamTileMarkers(
@@ -543,15 +436,7 @@ export default function MuseumScene({
             (marker) => this.showVietnamMapMarker(marker)
           );
         }
-        if (!USE_VIETNAM_MAP) {
-          this.interactiveElementsManager.createInfoPoints();
-          this.interactiveElementsManager.createPictures();
-          this.roomBorders = this.roomManager.createRoomBorders(
-            this.map,
-            this.map2
-          );
-          this.interactiveElementsManager.createComprehensiveQuizPoint();
-        }
+        // Legacy non-Vietnam interactive elements removed.
 
         this.infoPoints = this.interactiveElementsManager.infoPoints;
         this.quizPoint = this.interactiveElementsManager.quizPoint;
@@ -571,9 +456,7 @@ export default function MuseumScene({
           this.physics.add.collider(player, this.roomBorders.room3Border);
         }
 
-        this.roomTriggers = USE_VIETNAM_MAP
-          ? {}
-          : this.roomManager.createRoomTriggers();
+        this.roomTriggers = this.roomManager.createRoomTriggers();
 
         this.interactKey = this.input.keyboard!.addKey(
           Phaser.Input.Keyboard.KeyCodes.E
@@ -1332,13 +1215,15 @@ export default function MuseumScene({
       }
     };
 
-    (window as any).createFinishLine = () => {
-      const scene = game.scene.getScene("MainScene") as any;
-      if (scene && scene.interactiveElementsManager) {
-        scene.interactiveElementsManager.createFinishLine(scene.mapManager);
-        scene.finishLine = scene.interactiveElementsManager.finishLine;
-      }
-    };
+    if (!USE_VIETNAM_MAP) {
+      (window as any).createFinishLine = () => {
+        const scene = game.scene.getScene("MainScene") as any;
+        if (scene && scene.interactiveElementsManager) {
+          scene.interactiveElementsManager.createFinishLine(scene.mapManager);
+          scene.finishLine = scene.interactiveElementsManager.finishLine;
+        }
+      };
+    }
 
     (window as any).showGamePopup = (
       title: string,
